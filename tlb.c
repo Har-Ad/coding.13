@@ -7,9 +7,30 @@ Assignment 19
 The program will have to loop through the pages multiple times in order to purposefully
 increase the time it takes so that a timer can be more accurate, or so it can at least provide distinguishable results.
 */
-//Question 2
+//Question 3
 /*
-
+It takes roughly 10k trials to start seeing numbers around the smae range.
+*/
+//Question 4
+/*
+Visualization helps to show the moments when the time suddenly jumps, showing the relative range between 
+page numbers thst are within the same efficiency.
+*/
+//Question 5
+/*
+In order to make sure a loop always stays after compilation, it needs to have observable side effects, 
+such as a variable that changes each iteration.
+*/
+//Question 6
+/*
+You can use the start function in the command line to force the program to run on only one cpu.
+I imagine that if it swapped between cpus, the timing may change and we won't be able to get accurate readings.
+*/
+//Question 7
+/*
+Because initialization takes time, it is better to do it before we start counting so that we only count 
+the time it takes to parse through the already existing arrays. We can also counterbalance by account for how long
+it might take to create an array base on how many pages we create.
 */
 
 #include <stdio.h>
@@ -46,14 +67,13 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
-    
-
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
-
     for(size_t i = 0; i < totalEntries; i += jump){
         pageArray[i] = 1;
     }
+
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+    
     for(int j = 0; j < trials; j++){
         for(int i = 0; i < totalEntries; i += jump){
             pageArray[i] += 1;
@@ -64,7 +84,8 @@ int main(int argc, char *argv[]){
     
     printf("pageSize: %ld bytes\n", pageSize);
     printf("pages: %d\n", pages);
-    printf("Time for %d trials: %f seconds\n", trials, ((end.tv_sec - start.tv_sec) * 1E6 + end.tv_usec - start.tv_usec) / (trials * pages));
+    printf("Time for %d trials: %f seconds\n", trials, 
+        ((end.tv_sec - start.tv_sec) * 1E6 + end.tv_usec - start.tv_usec) / (trials * pages));
 
     free(pageArray);
     return 0;
